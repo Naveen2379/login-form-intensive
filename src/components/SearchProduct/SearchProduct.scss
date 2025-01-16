@@ -1,0 +1,10 @@
+.search-products {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  .filtered-products {
+    position: absolute;
+    background: rebeccapurple;
+    top: 20px;
+  }
+}

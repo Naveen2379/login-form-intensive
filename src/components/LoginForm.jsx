@@ -1,30 +1,30 @@
 import React, { useState } from "react";
 
 const LoginForm = ({saveUser}) => {
-  const [formFields, setFormFields] = useState({
+  const initialFormState = {
     userName: "",
     email: "",
     gender: "male",
     age: 18,
     country: "India",
-  });
+  }
+  const [formFields, setFormFields] = useState({...initialFormState});
   const [errorMsgs, setErrorMsgs] = useState({ userName: "" });
 
   const validateFields = (formFields) => {
-    console.log("validateFields*** ", formFields);
 
     if (formFields.userName?.length < 5) {
-      console.log("please enter >5 chars");
-      return setErrorMsgs((errorMsgs) => ({
+      setErrorMsgs((errorMsgs) => ({
         ...errorMsgs,
         userName: "please enter >5 chars",
       }));
+      return false
     }
-    return setErrorMsgs({ userName: "" });
+    setErrorMsgs({ userName: "" });
+    return true
   };
   const handleFormFields = (e) => {
     const { name, value } = e?.target;
-    console.log(name, value);
     setFormFields((values) => ({
       ...values,
       [name]: value,
@@ -33,9 +33,12 @@ const LoginForm = ({saveUser}) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log("formFields*** ", formFields);
-    validateFields(formFields);
-    saveUser(formFields)
+    if(validateFields(formFields)) {
+      saveUser(formFields)
+      window.alert('user saved...')
+      setFormFields({...initialFormState})
+    }
+    return
   };
 
   return (
